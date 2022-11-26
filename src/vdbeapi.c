@@ -735,7 +735,15 @@ static int sqlite3Step(Vdbe *p){
 #endif /* SQLITE_OMIT_EXPLAIN */
   {
     db->nVdbeExec++;
-    rc = sqlite3VdbeExec(p);
+
+    if (p->pc == 0) {
+        jit_context_t context = setupJIT();
+        sqlite3VdbeJITExec(p, context);
+        rc = SQLITE_DONE;
+        teardownJIT(context);
+    } else {
+        rc = sqlite3VdbeExec(p);
+    }
     db->nVdbeExec--;
   }
 

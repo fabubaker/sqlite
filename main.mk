@@ -53,7 +53,7 @@ THREADLIB += $(LIBS)
 
 # Object files for the SQLite library.
 #
-LIBOBJ+= vdbe.o parse.o \
+LIBOBJ+= vdbe.o vdbe-jit.o parse.o \
          alter.o analyze.o attach.o auth.o \
          backup.o bitvec.o btmutex.o btree.o build.o \
          callback.o complete.o ctime.o \
@@ -170,6 +170,7 @@ SRC = \
   $(TOP)/src/util.c \
   $(TOP)/src/vacuum.c \
   $(TOP)/src/vdbe.c \
+  $(TOP)/src/vdbe-jit.c \
   $(TOP)/src/vdbe.h \
   $(TOP)/src/vdbeapi.c \
   $(TOP)/src/vdbeaux.c \
@@ -434,6 +435,7 @@ TESTSRC2 = \
   $(TOP)/src/vdbeapi.c \
   $(TOP)/src/vdbeaux.c \
   $(TOP)/src/vdbe.c \
+  $(TOP)/src/vdbe-jit.c \
   $(TOP)/src/vdbemem.c \
   $(TOP)/src/vdbevtab.c \
   $(TOP)/src/where.c \

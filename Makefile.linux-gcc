@@ -44,7 +44,7 @@ THREADLIB = -lpthread -lm -ldl
 #### Specify any extra libraries needed to access required functions.
 #
 #TLIBS = -lrt    # fdatasync on Solaris 8
-TLIBS = 
+TLIBS = -ljit # LibJIT
 
 #### Leave SQLITE_DEBUG undefined for maximum speed.  Use SQLITE_DEBUG=1
 #    to check for memory leaks.  Use SQLITE_DEBUG=2 to print a log of all
@@ -68,7 +68,7 @@ EXE =
 #    will run on the target platform.  This is usually the same
 #    as BCC, unless you are cross-compiling.
 #
-TCC = gcc -O0
+TCC = gcc -g -O0
 #TCC = gcc -g -O0 -Wall
 #TCC = gcc -g -O0 -Wall -fprofile-arcs -ftest-coverage
 #TCC = /opt/mingw/bin/i386-mingw32-gcc -O6

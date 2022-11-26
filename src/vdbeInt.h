@@ -17,7 +17,7 @@
 */
 #ifndef SQLITE_VDBEINT_H
 #define SQLITE_VDBEINT_H
-
+#include <jit/jit.h>
 /*
 ** The maximum number of times that a statement will try to reparse
 ** itself before giving up and returning SQLITE_SCHEMA.
@@ -568,6 +568,12 @@ int sqlite2BtreeKeyCompare(BtCursor *, const void *, int, int, int *);
 int sqlite3VdbeIdxKeyCompare(sqlite3*,VdbeCursor*,UnpackedRecord*,int*);
 int sqlite3VdbeIdxRowid(sqlite3*, BtCursor*, i64*);
 int sqlite3VdbeExec(Vdbe*);
+
+// JIT
+jit_context_t setupJIT();
+jit_function_t sqlite3VdbeJITExec(Vdbe*, jit_context_t);
+void teardownJIT(jit_context_t);
+
 #if !defined(SQLITE_OMIT_EXPLAIN) || defined(SQLITE_ENABLE_BYTECODE_VTAB)
 int sqlite3VdbeNextOpcode(Vdbe*,Mem*,int,int*,int*,Op**);
 char *sqlite3VdbeDisplayP4(sqlite3*,Op*);

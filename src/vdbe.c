@@ -795,7 +795,15 @@ int sqlite3VdbeExec(
   }
   sqlite3EndBenignMalloc();
 #endif
+
+  // Insert JIT compilation function here
+  // It returns a function that executes the VDBE program till OP_Halt
+  // Updates pc to point to Halt
+  // Maybe use variable to track before OP_Halt and after OP_Halt
+
   for(pOp=&aOp[p->pc]; 1; pOp++){
+//    printf("HERE IS OPCODE: %d\n", pOp->opcode);
+//    printf("HERE IS nmem: %d\n", p->nMem);
     /* Errors are detected by individual opcodes, with an immediate
     ** jumps to abort_due_to_error. */
     assert( rc==SQLITE_OK );
@@ -2822,7 +2830,7 @@ op_column_restart:
   if( pC->cacheStatus!=p->cacheCtr ){                /*OPTIMIZATION-IF-FALSE*/
     if( pC->nullRow ){
       if( pC->eCurType==CURTYPE_PSEUDO && pC->seekResult>0 ){
-        /* For the special case of as pseudo-cursor, the seekResult field
+        /* For the special case of as pseudo-cursor, the seekResult field`
         ** identifies the register that holds the record */
         pReg = &aMem[pC->seekResult];
         assert( pReg->flags & MEM_Blob );
