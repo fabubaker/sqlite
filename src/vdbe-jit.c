@@ -25,31 +25,22 @@ jit_function_t sqlite3VdbeJITExec(Vdbe* p, jit_context_t context) {
     Op *aOp = p->aOp;          /* Copy of p->aOp */
     Op *pOp = aOp;             /* Current operation */
 
-    printf("nMem: %d\n", p->nMem);
-
     /* Define the register union here */
-    union MemValue {
-        double r;
-        i64 i;
+    jit_type_t v[5] = {
+            jit_type_float64,  // double r
+            jit_type_long,     // i64 i
+            jit_type_int,      // int nZero
+            jit_type_void_ptr, // const char *zPType
+            jit_type_void_ptr  // FuncDef *pDef
     };
-
-    jit_type_t v[2] = {
-            jit_type_float64,
-            jit_type_long
-    };
-    jit_type_t mem_type = jit_type_create_union(v, 2, 1);
+    jit_type_t mem_type = jit_type_create_union(v, 5, 1);
     jit_type_t mem_type_ptr = jit_type_create_pointer(mem_type, 1);
-
-    // Create registers for VM
-    union MemValue **VM_registers = calloc(p->nMem, sizeof(union MemValue *));
 
     // Create registers for LibJIT
     jit_value_t *JIT_registers = calloc(p->nMem, sizeof(jit_value_t));
 
     for (int i = 0; i < p->nMem; i++) {
-        VM_registers[i] = malloc(sizeof(union MemValue));
-        printf("VM REGISTER %d addr: %lld\n", i, VM_registers[i]);
-        JIT_registers[i] = jit_value_create_nint_constant(function, mem_type_ptr, VM_registers[i]);
+        JIT_registers[i] = jit_value_create_nint_constant(function, mem_type_ptr, &(p->aMem[i].u));
     }
 
     // Start JIT implementation
@@ -83,7 +74,10 @@ jit_function_t sqlite3VdbeJITExec(Vdbe* p, jit_context_t context) {
             }
             case OP_ResultRow: {
                 // Set ResultSet and update pc
+                p->cacheCtr = (p->cacheCtr + 2)|1;
+                p->pResultSet = &p->aMem[pOp->p1];
                 p->pc = (int)(pOp - aOp) + 1;
+                MemSetTypeFlag(&p->aMem[1], MEM_Int);
                 break;
             }
             default: {
@@ -95,10 +89,11 @@ jit_function_t sqlite3VdbeJITExec(Vdbe* p, jit_context_t context) {
 
     jit_dump_function(stdout, function, "union");
     jit_function_compile(function);
+    jit_dump_function(stdout, function, "union-asm");
     jit_function_apply(function, NULL, NULL);
 
-    printf("POP P3 Register: %lld\n", VM_registers[1]);
-    printf("HERE IS RESULT: %lld \n", VM_registers[1]->i);
+    printf("POP P3 Register: %lld\n", &(p->aMem[1].u));
+    printf("HERE IS RESULT: %lld \n", p->aMem[1].u.i);
 
     return function;
 }

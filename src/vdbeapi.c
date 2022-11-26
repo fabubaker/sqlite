@@ -739,7 +739,7 @@ static int sqlite3Step(Vdbe *p){
     if (p->pc == 0) {
         jit_context_t context = setupJIT();
         sqlite3VdbeJITExec(p, context);
-        rc = SQLITE_DONE;
+        rc = SQLITE_ROW;
         teardownJIT(context);
     } else {
         rc = sqlite3VdbeExec(p);
