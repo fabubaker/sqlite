@@ -278,7 +278,7 @@ jit_function_t sqlite3VdbeJITExec(Vdbe* p, jit_context_t context) {
     FF compiled_vdbe = jit_function_to_closure(function);
     t1 = clock();
     compile_elapsed = ((double) t1-t0)/CLOCKS_PER_SEC;
-    printf("<Benchmarks> JIT compile time took %.6f seconds !\n", compile_elapsed);
+    printf("<Benchmarks> JIT compile time took %.6f seconds\n", compile_elapsed);
 
     // Uncomment the below two lines to see assembly
 //    printf("<Debug> Printing Assembly...\n");
@@ -288,7 +288,7 @@ jit_function_t sqlite3VdbeJITExec(Vdbe* p, jit_context_t context) {
     compiled_vdbe();
     t1 = clock();
     jit_elapsed = ((double) t1-t0)/CLOCKS_PER_SEC;
-    printf("<Benchmarks> JIT execution took %.6f seconds !\n", jit_elapsed);
+    printf("<Benchmarks> JIT execution took %.6f seconds\n", jit_elapsed);
 
     free(JIT_registers);
     return function;

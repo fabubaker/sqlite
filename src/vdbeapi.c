@@ -753,7 +753,7 @@ static int sqlite3Step(Vdbe *p){
         t1 = clock();
 
         nonjit_elapsed = ((double) t1-t0)/CLOCKS_PER_SEC;
-        printf("<Benchmarks> Non-JIT execution took %.6f seconds !\n", nonjit_elapsed);
+        printf("<Benchmarks> Non-JIT execution took %.6f seconds\n", nonjit_elapsed);
 #ifdef SQLITE_JIT
     }
 #endif
