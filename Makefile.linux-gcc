@@ -55,8 +55,8 @@ TLIBS = -ljit # LibJIT
 #    with -DNDEBUG=1
 #
 OPTS += -DSQLITE_DEBUG=1
-OPTS += -DSQLITE_ENABLE_WHERETRACE
-OPTS += -DSQLITE_ENABLE_SELECTTRACE
+//OPTS += -DSQLITE_ENABLE_WHERETRACE
+//OPTS += -DSQLITE_ENABLE_SELECTTRACE
 
 #### The suffix to add to executable files.  ".exe" for windows.
 #    Nothing for unix.
