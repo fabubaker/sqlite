@@ -265,9 +265,9 @@ jit_function_t sqlite3VdbeJITExec(Vdbe* p, jit_context_t context) {
     }
     exit_loop: ;
 
-    // Uncomment this to see LibJIT IR
-    printf("<Debug> Printing LibJIT IR...\n");
-    jit_dump_function(stdout, function, NULL);
+    // Uncomment the below two lines to see LibJIT IR
+//    printf("<Debug> Printing LibJIT IR...\n");
+//    jit_dump_function(stdout, function, NULL);
 
     clock_t t0, t1;
     double jit_elapsed = 0.0;
@@ -280,9 +280,9 @@ jit_function_t sqlite3VdbeJITExec(Vdbe* p, jit_context_t context) {
     compile_elapsed = ((double) t1-t0)/CLOCKS_PER_SEC;
     printf("<Benchmarks> JIT Compile time took %.6f seconds !\n", compile_elapsed);
 
-    // Uncomment this to see assembly
-    printf("<Debug> Printing Assembly...\n");
-    jit_dump_function(stdout, function, NULL);
+    // Uncomment the below two lines to see assembly
+//    printf("<Debug> Printing Assembly...\n");
+//    jit_dump_function(stdout, function, NULL);
 
     t0 = clock();
     compiled_vdbe();
