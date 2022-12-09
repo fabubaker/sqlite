@@ -577,7 +577,7 @@ libsqlite3.a: sqlite3.h	$(LIBOBJ)
 
 sqlite3$(EXE):	sqlite3.h libsqlite3.a shell.c
 	$(TCCX) $(READLINE_FLAGS) -o sqlite3$(EXE) $(SHELL_OPT) \
-		shell.c libsqlite3.a $(LIBREADLINE) $(TLIBS) $(THREADLIB)
+		shell.c libsqlite3.a libjit.a $(LIBREADLINE) $(TLIBS) $(THREADLIB)
 
 sqldiff$(EXE):	$(TOP)/tool/sqldiff.c sqlite3.c sqlite3.h
 	$(TCCX) -o sqldiff$(EXE) -DSQLITE_THREADSAFE=0 \
