@@ -201,7 +201,7 @@ jit_function_t sqlite3VdbeJITExec(Vdbe* p, jit_context_t context) {
 
                 jit_value_t p1 = jit_insn_load_relative(function, JIT_registers[pOp->p1], 0, p1_type);
                 jit_value_t p2 = jit_insn_load_relative(function, JIT_registers[pOp->p2], 0, p2_type);
-                jit_value_t tmp = jit_insn_div(function, p1, p2);
+                jit_value_t tmp = jit_insn_div(function, p2, p1);
                 jit_insn_store_relative(function, JIT_registers[pOp->p3], 0, tmp);
 
                 // Perform compile-time type checking of P3
@@ -236,7 +236,7 @@ jit_function_t sqlite3VdbeJITExec(Vdbe* p, jit_context_t context) {
 
                 jit_value_t p1 = jit_insn_load_relative(function, JIT_registers[pOp->p1], 0, p1_type);
                 jit_value_t p2 = jit_insn_load_relative(function, JIT_registers[pOp->p2], 0, p2_type);
-                jit_value_t tmp = jit_insn_rem(function, p1, p2);
+                jit_value_t tmp = jit_insn_rem(function, p2, p1);
                 jit_insn_store_relative(function, JIT_registers[pOp->p3], 0, tmp);
 
                 // Perform compile-time type checking of P3
