@@ -736,27 +736,7 @@ static int sqlite3Step(Vdbe *p){
 #endif /* SQLITE_OMIT_EXPLAIN */
   {
     db->nVdbeExec++;
-
-#ifdef SQLITE_JIT
-    if (p->pc == 0) {
-        jit_context_t context = setupJIT();
-        sqlite3VdbeJITExec(p, context);
-        rc = SQLITE_ROW;
-        teardownJIT(context);
-    } else {
-#endif
-        clock_t t0, t1;
-        double nonjit_elapsed = 0.0;
-
-        t0 = clock();
-        rc = sqlite3VdbeExec(p);
-        t1 = clock();
-
-        nonjit_elapsed = ((double) t1-t0)/CLOCKS_PER_SEC;
-        printf("<Benchmarks> Non-JIT execution took %.6f seconds\n", nonjit_elapsed);
-#ifdef SQLITE_JIT
-    }
-#endif
+    rc = sqlite3VdbeExec(p);
     db->nVdbeExec--;
   }
 
